@@ -8,5 +8,7 @@
             "email": "ambroise.jerome.formation@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "^3.12"
+    }
 }

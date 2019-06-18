@@ -1,12 +1,13 @@
 <?php
 
 use App\Controller\APIController;
+use App\Controller\AuthController;
 use App\Controller\HomeController;
 use App\Controller\ProductController;
 
 // Création de pages de base
 $app->get('/', HomeController::class . ':home');
-$app->get('/contact', HomeController::class . ':home');
+$app->get('/contact', HomeController::class . ':contact');
 
 // Renvoi d'un JSON
 $app->get('/hamac', APIController::class . ':hamac');
@@ -22,3 +23,8 @@ $app->group('/produit', function () {
     // Page de suppression des produits
     // todo : créer route et méthode de contrôleur
 });
+
+// Page d'inscription
+$app->get('/inscription', AuthController::class . ':register');
+// Page de connexion
+$app->get('/connexion', AuthController::class . ':connect');

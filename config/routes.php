@@ -5,7 +5,7 @@ use App\Controller\HomeController;
 use App\Controller\ProductController;
 
 // Création de pages de base
-$app->get('/homepage', HomeController::class . ':home');
+$app->get('/', HomeController::class . ':home');
 $app->get('/contact', HomeController::class . ':home');
 
 // Renvoi d'un JSON

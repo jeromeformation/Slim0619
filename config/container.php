@@ -8,6 +8,7 @@ use Slim\Http\Environment;
 use Slim\Http\Uri;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
+use Twig\Extension\DebugExtension;
 
 // Fetch DI Container
 $container = $app->getContainer();
@@ -17,14 +18,19 @@ $container['view'] = function (ContainerInterface $c) {
     $view = new Twig(
         dirname(__DIR__) . '/templates',
         [
-            'cache' => false
+            'cache' => false,
+            'debug' => true
         ]
     );
 
-    // Instantiate and add Slim specific extension
+    // Récupération du routeur
     $router = $c->get('router');
     $uri = Uri::createFromEnvironment(new Environment($_SERVER));
+    // Ajout d'extensions
     $view->addExtension(new TwigExtension($router, $uri));
+    $view->addExtension(new DebugExtension());
+    // Ajout de variables globales
+    $view->getEnvironment()->addGlobal('session', $_SESSION);
 
     return $view;
 };

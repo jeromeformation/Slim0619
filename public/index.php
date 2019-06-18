@@ -5,6 +5,8 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // Les "use" des différentes classes
 use Slim\App;
 
+session_start();
+
 // Config
 $config = require dirname(__DIR__) . '/config/config.php';
 

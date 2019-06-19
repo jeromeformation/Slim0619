@@ -3,6 +3,7 @@
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 // Les "use" des différentes classes
+use DI\ContainerBuilder;
 use Slim\App;
 
 session_start();
@@ -10,11 +11,14 @@ session_start();
 // Config
 $config = require dirname(__DIR__) . '/config/config.php';
 
-// On créé l'application Slim
-$app = new App($config);
+// PHP-DI
 
-// Récupération du conteneur
-require dirname(__DIR__) . '/config/container.php';
+$builder = new DI\ContainerBuilder();
+$builder->addDefinitions(dirname(__DIR__) . '/config/container.php');
+$container = $builder->build();
+
+// On créé l'application Slim
+$app = new App($container);
 
 // Récupération des routes
 require dirname(__DIR__) . '/config/routes.php';

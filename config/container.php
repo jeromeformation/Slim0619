@@ -1,5 +1,6 @@
 <?php
 
+use App\Utilities\Database;
 use Psr\Container\ContainerInterface;
 use Slim\CallableResolver;
 use Slim\Handlers\Error;
@@ -92,5 +93,14 @@ return [
     },
     Twig::class => function (ContainerInterface $container) {
         return $container->get('view');
+    },
+    Database::class => function (ContainerInterface $container) {
+        $parameters = $container->get('parameters');
+        return new Database(
+            $parameters['database_name'],
+            $parameters['database_user'],
+            $parameters['database_host'],
+            $parameters['database_password']
+        );
     }
 ];

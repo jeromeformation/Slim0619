@@ -16,24 +16,32 @@ class Database
 
     /**
      * On crée un constructeur pour initialiser PDO automatiquement
+     * @param string $dbName
+     * @param string $dbUser
+     * @param string|null $dbPass
+     * @param string $dbHost
      */
-    public function __construct()
+    public function __construct(string $dbName, string $dbUser, string $dbHost, ?string $dbPass =  null)
     {
-        $this->connect();
+        // Connexion à la BDD
+        $this->connect($dbName, $dbUser, $dbHost, $dbPass);
     }
 
     /**
-     * Créer une instance de PDO
+     * Créer une instance de PDO et la stocke dans la classe
+     * @param string $dbName
+     * @param string $dbUser
+     * @param string $dbPass
+     * @param string $dbHost
      */
-    public function connect(): void
+    public function connect(string $dbName, string $dbUser, string $dbHost, ?string $dbPass =  null): void
     {
         // Connexion à MySQL
         $this->pdo = new PDO(
-            'mysql:host=localhost;dbname=catalogue',
-            'root',
-            null,
+            'mysql:host='.$dbHost.';dbname='.$dbName.';charset=utf8mb4',
+            $dbUser,
+            $dbPass,
             [
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]
         );

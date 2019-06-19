@@ -21,7 +21,7 @@ class Database
      * @param string|null $dbPass
      * @param string $dbHost
      */
-    public function __construct(string $dbName, string $dbUser, string $dbHost, ?string $dbPass =  null)
+    public function __construct(string $dbName, string $dbUser, string $dbHost, ?string $dbPass = null)
     {
         // Connexion à la BDD
         $this->connect($dbName, $dbUser, $dbHost, $dbPass);
@@ -33,8 +33,10 @@ class Database
      * @param string $dbUser
      * @param string $dbPass
      * @param string $dbHost
+     *
+     *
      */
-    public function connect(string $dbName, string $dbUser, string $dbHost, ?string $dbPass =  null): void
+    public function connect(string $dbName, string $dbUser, string $dbHost, ?string $dbPass = null): void
     {
         // Connexion à MySQL
         $this->pdo = new PDO(
@@ -59,6 +61,24 @@ class Database
         $result = $this->pdo->query($sql);
         // Récupération des résultats
         return $result->fetchAll(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, $className);
+    }
+
+    /**
+     * Prépare et exécute une requête préparée (protection contre les injections SQL)
+     * @param string $sql - Requête SQL
+     * @param array $params - Paramètres de la requête SQL
+     * @param string|null $className - La classe servant à stocker les résultats
+     * @return array|null - Les données récupérées (ou rien du tout)
+     */
+    public function queryPrepared(string $sql, array $params, ?string $className = null): ?array
+    {
+        // Préparation de la requête SQL
+        $statement = $this->pdo->prepare($sql);
+        // Exécution de la requête SQL
+        $statement->execute($params);
+
+        // Retour des résultats
+        return $statement->fetchAll(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, $className);
     }
 
     /**

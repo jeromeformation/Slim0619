@@ -66,4 +66,3 @@ class Database
         return $this->pdo->exec($sql);
     }
 }
-

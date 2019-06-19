@@ -12,7 +12,6 @@ session_start();
 $config = require dirname(__DIR__) . '/config/config.php';
 
 // PHP-DI
-
 $builder = new DI\ContainerBuilder();
 $builder->addDefinitions(dirname(__DIR__) . '/config/container.php');
 $container = $builder->build();
@@ -25,4 +24,3 @@ require dirname(__DIR__) . '/config/routes.php';
 
 // Renvoi de la réponse au navigateur
 $app->run();
-

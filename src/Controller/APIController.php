@@ -6,7 +6,8 @@ use Slim\Http\Response;
 
 class APIController
 {
-    public function hamac(ServerRequestInterface $request, Response $response) {
+    public function hamac(ServerRequestInterface $request, Response $response)
+    {
         // Création des données
         $hamac = [
             "name" => "Hamac",
@@ -18,4 +19,3 @@ class APIController
         return $response;
     }
 }
-

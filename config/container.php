@@ -2,10 +2,11 @@
 
 use App\Utilities\Database;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\CallableResolver;
 use Slim\Handlers\Error;
 use Slim\Handlers\NotAllowed;
-use Slim\Handlers\NotFound;
 use Slim\Handlers\PhpError;
 use Slim\Handlers\Strategies\RequestResponse;
 use Slim\Http\Environment;
@@ -62,8 +63,12 @@ return [
             $container->get('settings')['displayErrorDetails']
         );
     },
-    'notFoundHandler' => function () {
-        return new NotFound;
+    'notFoundHandler' => function (ContainerInterface $container) {
+        return function (ServerRequestInterface $request, ResponseInterface $response) use ($container) {
+            return $container->get(Twig::class)
+                ->render($response, 'errors/error404.twig')
+                ->withStatus(404);
+        };
     },
     'notAllowedHandler' => function () {
         return new NotAllowed;

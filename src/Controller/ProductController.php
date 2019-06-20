@@ -51,6 +51,7 @@ class ProductController extends AbstractController
             ;
         }
 
+
         return $this->twig->render($response, 'product/show.twig');
     }
 }

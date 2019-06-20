@@ -2,30 +2,26 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
-use App\Utilities\Database;
+use App\Utilities\AbstractRepository;
 
-class ProductRepository
+class ProductRepository extends AbstractRepository
 {
-    /**
-     * @var Database
-     */
-    private $database;
 
-    public function __construct(Database $database)
+    /**
+     * Retourne le nom de la table en base de données
+     * @return string
+     */
+    protected function getTableName(): string
     {
-        $this->database = $database;
+        return 'produit';
     }
 
     /**
-     * Récupère tous les enregistrements
-     * ... de la table produit
-     * @return array
+     * Retourne le namespace complet de l'entité
+     * @return string
      */
-    public function findAll(): array
+    protected function getEntityName(): string
     {
-        // Requête SQL
-        $query = "SELECT * FROM produit";
-        // Exécution de la requête SQL et récupération des produits
-        return $this->database->query($query, Produit::class);
+        return Produit::class;
     }
 }

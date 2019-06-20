@@ -2,30 +2,25 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use App\Utilities\Database;
+use App\Utilities\AbstractRepository;
 
-class UserRepository
+class UserRepository extends AbstractRepository
 {
     /**
-     * @var Database
+     * Retourne le nom de la table en base de données
+     * @return string
      */
-    private $database;
-
-    public function __construct(Database $database)
+    protected function getTableName(): string
     {
-        $this->database = $database;
+        return 'app_user';
     }
 
     /**
-     * Récupère tous les enregistrements
-     * ... de la table produit
-     * @return array
+     * Retourne le namespace complet de l'entité
+     * @return string
      */
-    public function findAll(): array
+    protected function getEntityName(): string
     {
-        // Requête SQL
-        $query = "SELECT * FROM app_user";
-        // Exécution de la requête SQL et récupération des produits
-        return $this->database->query($query, User::class);
+        return User::class;
     }
 }

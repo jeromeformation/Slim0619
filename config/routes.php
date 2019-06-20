@@ -4,6 +4,7 @@ use App\Controller\APIController;
 use App\Controller\AuthController;
 use App\Controller\HomeController;
 use App\Controller\ProductController;
+use App\Controller\UserController;
 
 // Création de pages de base
 $app->get('/', HomeController::class . ':home');
@@ -22,6 +23,11 @@ $app->group('/produit', function () {
     // todo : créer route et méthode de contrôleur
     // Page de suppression des produits
     // todo : créer route et méthode de contrôleur
+});
+// Création d'un groupe de routes gérants les produits
+$app->group('/utilisateurs', function () {
+    // Page de la liste des produits
+    $this->get('/liste', UserController::class . ':liste');
 });
 
 // Page d'inscription

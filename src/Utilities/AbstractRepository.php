@@ -26,6 +26,22 @@ abstract class AbstractRepository
     }
 
     /**
+     * Prépare et exécute une requête préparée avec les paramètres fournis
+     * @param array $params
+     * @return array
+     */
+    public function findBy(array $params): array
+    {
+        $query = "SELECT * FROM ". $this->getTableName();
+
+        foreach ($params as $key => $param) {
+            $query .= " WHERE " . $key . " = ?";
+        }
+
+        return $this->database->queryPrepared($query, array_values($params), $this->getEntityName());
+    }
+
+    /**
      * Retourne le nom de la table en base de données
      * @return string
      */

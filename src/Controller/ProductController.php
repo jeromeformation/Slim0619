@@ -47,11 +47,10 @@ class ProductController extends AbstractController
      */
     public function show(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        $id = $args['id'];
-
         // Requête SQL
-        $query = "SELECT * FROM produit WHERE id = ? AND etat_publication = 1";
-        $product = $this->database->queryPrepared($query, [$id], Produit::class);
+        $product = $this->productRepository->findBy([
+            'id' => $args['id']
+        ]);
 
         // On teste si un produit a été retourné
         if (empty($product)) {
@@ -62,7 +61,8 @@ class ProductController extends AbstractController
             ;
         }
 
-
-        return $this->twig->render($response, 'product/show.twig');
+        return $this->twig->render($response, 'product/show.twig', [
+            'product' => $product[0]
+        ]);
     }
 }

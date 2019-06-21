@@ -24,7 +24,7 @@ class UserRepository extends AbstractRepository
         ];
 
         // Envoi de la requête à la BDD
-        $this->database->queryPrepared($sql, $datas);
+        return $this->database->queryPrepared(htmlentities($sql, ENT_QUOTES), $datas);
     }
 
     /**

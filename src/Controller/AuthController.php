@@ -47,7 +47,19 @@ class AuthController extends AbstractController
                     isset($_POST['role']) ? 'admin' : 'user'
                 );
 
-                $this->userRepository->insert($user);
+                $success = $this->userRepository->insert($user);
+
+                if ($success) {
+                    $_SESSION['flashes'] = [
+                        [
+                            'type' => 'success',
+                            'message' => 'Vous êtes bien inscrit'
+                        ]
+                    ];
+
+                    return $response->withStatus(301)
+                        ->withHeader('Location', '/');
+                }
             }
         }
 

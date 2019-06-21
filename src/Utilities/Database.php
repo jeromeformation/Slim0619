@@ -74,6 +74,7 @@ class Database
     {
         // Préparation de la requête SQL
         $statement = $this->pdo->prepare($sql);
+
         // Exécution de la requête SQL
         $statement->execute($params);
 

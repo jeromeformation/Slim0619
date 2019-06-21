@@ -49,7 +49,8 @@ class ProductController extends AbstractController
     {
         // Requête SQL
         $product = $this->productRepository->findBy([
-            'id' => $args['id']
+            'id' => $args['id'],
+            'etat_publication' => 1
         ]);
 
         // On teste si un produit a été retourné

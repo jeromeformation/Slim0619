@@ -32,10 +32,16 @@ abstract class AbstractRepository
      */
     public function findBy(array $params): array
     {
+        // Début de la requête SQL
         $query = "SELECT * FROM ". $this->getTableName();
 
+        // Ajout du WHERE avec le paramètre envoyé
         foreach ($params as $key => $param) {
-            $query .= " WHERE " . $key . " = ?";
+            if ($key === \array_key_first($params)) {
+                $query .= " WHERE " . $key . " = ?";
+            } else {
+                $query .= " AND " . $key . " = ?";
+            }
         }
 
         return $this->database->queryPrepared($query, array_values($params), $this->getEntityName());

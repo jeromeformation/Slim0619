@@ -153,6 +153,16 @@ EOT;
     {
         return $this->errors ?? [];
     }
+
+    /**
+     * Vérifie si la valeur des 2 clefs est identique
+     * @param string $key1 - Clef située dans $_POST
+     * @param string $key2 - Clef située dans $_POST
+     */
+    public function checkEquals(string $key1, string $key2): void
+    {
+        if (!($_POST[$key1] === $_POST[$key2])) {
+            $this->errors[$key2] = 'Les 2 valeurs saisies ne concordent pas !';
+        }
+    }
 }
-
-

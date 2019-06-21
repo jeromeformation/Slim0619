@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Utilities;
 
 use PDO;
@@ -40,7 +41,7 @@ class Database
     {
         // Connexion à MySQL
         $this->pdo = new PDO(
-            'mysql:host='.$dbHost.';dbname='.$dbName.';charset=utf8mb4',
+            'mysql:host=' . $dbHost . ';dbname=' . $dbName . ';charset=utf8mb4',
             $dbUser,
             $dbPass,
             [
@@ -60,7 +61,7 @@ class Database
         // Execution de la requête
         $result = $this->pdo->query($sql);
         // Récupération des résultats
-        return $result->fetchAll(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, $className);
+        return $result->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $className);
     }
 
     /**
@@ -68,9 +69,9 @@ class Database
      * @param string $sql - Requête SQL
      * @param array $params - Paramètres de la requête SQL
      * @param string|null $className - La classe servant à stocker les résultats
-     * @return array|null - Les données récupérées (ou rien du tout)
+     * @return array|bool|\PDOStatement
      */
-    public function queryPrepared(string $sql, array $params, ?string $className = null): ?array
+    public function queryPrepared(string $sql, array $params, ?string $className = null)
     {
         // Préparation de la requête SQL
         $statement = $this->pdo->prepare($sql);
@@ -79,7 +80,11 @@ class Database
         $statement->execute($params);
 
         // Retour des résultats
-        return $statement->fetchAll(PDO::FETCH_CLASS| PDO::FETCH_PROPS_LATE, $className);
+        if ($className) {
+            return $statement->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $className);
+        } else {
+            return $statement;
+        }
     }
 
     /**

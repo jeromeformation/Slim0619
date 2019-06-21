@@ -6,6 +6,27 @@ use App\Utilities\AbstractRepository;
 
 class UserRepository extends AbstractRepository
 {
+    public function insert(User $user)
+    {
+        // Préparation de la requête SQL
+        $sql = "INSERT INTO app_user (username, email, password, role)
+            VALUES (?, ?, ?, ?)";
+
+        // Hashage du password
+        $user->hashPassword();
+
+        // Récupération des données postées
+        $datas = [
+          $user->getUsername(),
+          $user->getEmail(),
+          $user->getPassword(),
+          $user->getRole()
+        ];
+
+        // Envoi de la requête à la BDD
+        $this->database->queryPrepared($sql, $datas);
+    }
+
     /**
      * Retourne le nom de la table en base de données
      * @return string

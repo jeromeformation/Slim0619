@@ -31,6 +31,6 @@ $app->group('/utilisateurs', function () {
 });
 
 // Page d'inscription
-$app->get('/inscription', AuthController::class . ':register');
+$app->map(['GET', 'POST'], '/inscription', AuthController::class . ':register');
 // Page de connexion
 $app->get('/connexion', AuthController::class . ':connect');

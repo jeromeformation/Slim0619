@@ -57,10 +57,12 @@ class User
 
     /**
      * @param int $id
+     * @return User
      */
-    public function setId(int $id): void
+    public function setId(int $id): User
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -73,10 +75,12 @@ class User
 
     /**
      * @param string $username
+     * @return User
      */
-    public function setUsername(string $username): void
+    public function setUsername(string $username): User
     {
         $this->username = $username;
+        return $this;
     }
 
     /**
@@ -89,10 +93,12 @@ class User
 
     /**
      * @param string $email
+     * @return User
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): User
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -104,42 +110,18 @@ class User
     }
 
     /**
-     * Ajoute et hash le mot de passe
      * @param string $password
+     * @return User
      */
-    public function setPassword(string $password): void
+    public function setPassword(string $password): User
     {
-        // Hashage
-        $hash = password_hash($password, PASSWORD_BCRYPT);
-        // Stockage
-        $this->password = $hash;
+        $this->password = $password;
+        return $this;
     }
 
-    /**
-     * Récupère le nom d'utilisateur, l'email et le mot de passe
-     * Prépare la requête SQL pour le "INSERT INTO"
-     * @return string
-     */
-    public function getStrParamsSQL(): string
+    public function hashPassword()
     {
-        // On crée un tableau avec les 3 propriétés
-        $tab = [
-            $this->username,
-            $this->email,
-            $this->password,
-            $this->role
-        ];
-
-        $tab = array_map(function ($elem) {
-            return htmlentities($elem, ENT_QUOTES);
-        }, $tab);
-
-
-        // On crée une chaîne de caractères séparés de virgules et les quotes simples
-        $str = implode("','", $tab);
-        // On a ajoute une quote simple au début et une à la fin
-        // On retourne l'ensemble
-        return "'" . $str . "'";
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
     }
 
     /**
@@ -147,14 +129,16 @@ class User
      */
     public function getRole(): string
     {
-        return $this->role ?? '';
+        return $this->role;
     }
 
     /**
      * @param string $role
+     * @return User
      */
-    public function setRole(string $role): void
+    public function setRole(string $role): User
     {
         $this->role = $role;
+        return $this;
     }
 }
